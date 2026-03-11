@@ -5,33 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LG Harris Catalogue</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap");
+
       :root {
-        --page-bg: #efe7dd;
-        --card-bg: #f8f8f7;
-        --card-border: #d8d2ca;
-        --hero-ink: #132f4d;
-        --hero-ink-alt: #1a3f62;
-        --label-blue: #93c5ff;
-        --deal-orange: #c8452f;
-        --muted-text: #746f68;
-        --title-ink: #222222;
-        --pill-bg: #d6e4f8;
+        --ink: #081a36;
+        --ink-soft: #456089;
+        --brand: #12b9a6;
+        --brand-dark: #0a8f83;
+        --accent: #ff6b38;
+        --shell-0: #f7fbff;
+        --shell-1: #f0f9f4;
+        --card: #ffffff;
+        --card-border: #d4e2ef;
+        --tag-bg: #eaf2ff;
+        --tag-ink: #1d4f9a;
+        --price: #d64c1e;
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        min-height: 100%;
+      }
+
       body {
         margin: 0;
-        background: radial-gradient(circle at 14% 8%, #f6efe6 0, var(--page-bg) 38%, #ece4d8 100%);
-        color: var(--title-ink);
-        font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        color: var(--ink);
+        font-family: "Sora", "Avenir Next", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 15% 0%, #dbfff3 0%, transparent 44%),
+          radial-gradient(circle at 88% 18%, #d8e8ff 0%, transparent 42%),
+          linear-gradient(145deg, #f4f8ff 0%, #f6fbff 38%, #f1fbf5 100%);
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        border-radius: 999px;
+        filter: blur(40px);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      body::before {
+        width: 240px;
+        height: 240px;
+        top: -70px;
+        left: -40px;
+        background: rgba(18, 185, 166, 0.22);
+      }
+
+      body::after {
+        width: 280px;
+        height: 280px;
+        right: -80px;
+        top: 120px;
+        background: rgba(255, 107, 56, 0.16);
       }
 
       .page-shell {
-        width: min(1240px, calc(100vw - 28px));
-        margin: 18px auto 28px;
+        width: min(1260px, calc(100vw - 30px));
+        margin: 18px auto 30px;
       }
 
       .toolbar {
@@ -46,18 +84,29 @@
 
       .toolbar button {
         border: 0;
-        border-radius: 12px;
-        background: #12324f;
+        border-radius: 14px;
         color: #fff;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 700;
-        padding: 10px 16px;
+        letter-spacing: 0.01em;
+        padding: 11px 16px;
         cursor: pointer;
-        box-shadow: 0 8px 16px rgba(18, 50, 79, 0.2);
+        font-family: "Sora", sans-serif;
+        box-shadow: 0 10px 20px rgba(8, 26, 54, 0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .toolbar button:first-child {
+        background: linear-gradient(120deg, #10335b, #0a5c99);
       }
 
       .toolbar button:nth-child(2) {
-        background: #d06138;
+        background: linear-gradient(120deg, #ff6b38, #ff915f);
+      }
+
+      .toolbar button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 24px rgba(8, 26, 54, 0.24);
       }
 
       .toolbar button:disabled {
@@ -66,169 +115,288 @@
       }
 
       .poster {
-        background: #f3ece3;
-        border-radius: 28px;
-        padding: 30px 26px 24px;
-        border: 1px solid #ddd4ca;
-        box-shadow: 0 20px 50px rgba(53, 42, 28, 0.08);
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(155deg, var(--shell-0) 0%, #ffffff 55%, var(--shell-1) 100%);
+        border-radius: 30px;
+        padding: 28px 24px 22px;
+        border: 1px solid #d4e2f0;
+        box-shadow: 0 26px 54px rgba(11, 34, 62, 0.14);
+      }
+
+      .poster::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        left: -140px;
+        top: 320px;
+        border-radius: 999px;
+        background: rgba(17, 184, 165, 0.08);
+        filter: blur(8px);
+      }
+
+      .poster::after {
+        content: "";
+        position: absolute;
+        width: 360px;
+        height: 360px;
+        right: -180px;
+        top: 140px;
+        border-radius: 999px;
+        background: rgba(255, 107, 56, 0.08);
+        filter: blur(10px);
       }
 
       .hero {
+        position: relative;
+        overflow: hidden;
         border-radius: 30px;
-        background: linear-gradient(135deg, var(--hero-ink) 0%, #1e4062 55%, #18395a 100%);
-        color: #f4f7fa;
-        padding: 28px 34px 26px;
-        margin-bottom: 22px;
+        background: linear-gradient(132deg, #071b35 0%, #0d355f 42%, #0f6d74 100%);
+        color: #f6fbff;
+        padding: 30px 34px 26px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+        animation: heroRise 0.7s cubic-bezier(0.18, 0.82, 0.27, 1) both;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        right: -44px;
+        top: -30px;
+        width: 220px;
+        height: 220px;
+        border-radius: 40px;
+        transform: rotate(14deg);
+        background: linear-gradient(135deg, rgba(17, 184, 165, 0.2), rgba(255, 255, 255, 0.02));
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent 80%);
       }
 
       .hero .kicker {
-        margin: 0 0 8px;
-        color: var(--label-blue);
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        font-size: 24px;
+        margin: 0 0 9px;
+        color: #8de8ff;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        font-size: clamp(14px, 1vw, 16px);
       }
 
       .hero h1 {
         margin: 0;
-        font-size: clamp(36px, 4.25vw, 78px);
+        font-size: clamp(40px, 4.2vw, 66px);
+        line-height: 0.98;
         letter-spacing: 0.01em;
-        line-height: 0.97;
         text-transform: uppercase;
-        font-weight: 800;
+        font-weight: 900;
+        max-width: 92%;
       }
 
       .hero .subtitle {
-        margin: 10px 0 14px;
-        font-size: clamp(23px, 1.7vw, 29px);
-        letter-spacing: 0.015em;
-        color: #dbe6f0;
+        margin: 13px 0 14px;
+        font-size: clamp(17px, 1.25vw, 23px);
+        letter-spacing: 0.01em;
+        color: #d0e8ff;
+        max-width: 76%;
       }
 
       .promo {
         display: inline-flex;
         align-items: center;
-        gap: 12px;
-        border-radius: 100px;
-        background: linear-gradient(90deg, #d4573a, #de7d45);
+        gap: 10px;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #ff6b38, #ffa06f);
         color: #fff;
-        font-size: clamp(17px, 1.2vw, 22px);
-        padding: 8px 18px;
+        padding: 9px 16px 8px;
+        font-size: clamp(14px, 0.95vw, 18px);
         font-weight: 700;
+        box-shadow: 0 8px 18px rgba(255, 107, 56, 0.3);
       }
 
       .cards {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
+        gap: 16px;
       }
 
       .card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 24px;
-        overflow: hidden;
         position: relative;
-        min-height: 430px;
+        overflow: hidden;
+        min-height: 428px;
+        border-radius: 22px;
+        border: 1px solid var(--card-border);
+        background: linear-gradient(160deg, #ffffff, #fbfdff 62%, #f5faf6);
+        box-shadow: 0 10px 22px rgba(8, 26, 54, 0.08);
+        opacity: 0;
+        transform: translateY(14px);
+        animation: cardRise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        left: -10%;
+        top: 0;
+        width: 120%;
+        height: 6px;
+        background: linear-gradient(90deg, #10bba7, #38ca8f, #ff7f48);
+      }
+
+      .cards .card:nth-child(1) {
+        animation-delay: 0.04s;
+      }
+      .cards .card:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .cards .card:nth-child(3) {
+        animation-delay: 0.12s;
+      }
+      .cards .card:nth-child(4) {
+        animation-delay: 0.16s;
+      }
+      .cards .card:nth-child(5) {
+        animation-delay: 0.2s;
+      }
+      .cards .card:nth-child(6) {
+        animation-delay: 0.24s;
+      }
+      .cards .card:nth-child(7) {
+        animation-delay: 0.28s;
+      }
+      .cards .card:nth-child(8) {
+        animation-delay: 0.32s;
+      }
+      .cards .card:nth-child(9) {
+        animation-delay: 0.36s;
+      }
+      .cards .card:nth-child(10) {
+        animation-delay: 0.4s;
+      }
+      .cards .card:nth-child(11) {
+        animation-delay: 0.44s;
+      }
+      .cards .card:nth-child(12) {
+        animation-delay: 0.48s;
       }
 
       .badge {
         position: absolute;
-        left: 18px;
-        top: 8px;
-        padding: 6px 12px;
-        border-radius: 100px;
-        background: #cf543a;
+        left: 16px;
+        top: 10px;
+        border-radius: 999px;
+        padding: 5px 11px 4px;
+        background: linear-gradient(120deg, #ff6b38, #ff8f5d);
         color: #fff;
-        font-size: 15px;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
         font-weight: 700;
-        line-height: 1;
+        letter-spacing: 0.01em;
+        z-index: 2;
       }
 
       .card-layout {
         display: grid;
-        grid-template-columns: 41% 59%;
-        min-height: 430px;
+        grid-template-columns: 38% 62%;
+        min-height: 428px;
       }
 
       .image-side {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 26px 14px 14px;
-        background: #f0ece5;
+        padding: 24px 12px 12px;
+        background:
+          linear-gradient(180deg, rgba(14, 53, 95, 0.06), transparent 36%),
+          repeating-linear-gradient(135deg, rgba(18, 185, 166, 0.03) 0 11px, transparent 11px 22px);
       }
 
       .product-image {
         max-width: 100%;
-        max-height: 214px;
+        max-height: 216px;
         object-fit: contain;
-        filter: drop-shadow(0 6px 10px rgba(34, 26, 18, 0.16));
+        filter: drop-shadow(0 7px 12px rgba(7, 25, 45, 0.16));
       }
 
       .product-image.roll {
-        max-width: 182px;
-        max-height: 74px;
+        max-width: 184px;
+        max-height: 76px;
       }
 
       .product-image.square {
-        max-height: 176px;
+        max-height: 178px;
       }
 
       .product-image.tall {
-        max-height: 206px;
+        max-height: 208px;
       }
 
       .product-image.tarp {
-        max-height: 160px;
-        transform: rotate(-18deg);
+        max-height: 162px;
+        transform: rotate(-17deg);
       }
 
       .product-image.low {
-        max-height: 168px;
+        max-height: 170px;
       }
 
       .info-side {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 16px 14px 10px 16px;
+        padding: 18px 14px 11px 15px;
       }
 
       .brand {
         display: inline-flex;
-        border-radius: 16px;
-        background: var(--pill-bg);
-        color: #215392;
-        font-size: 15px;
-        font-weight: 800;
-        letter-spacing: 0.05em;
-        line-height: 1;
-        padding: 6px 10px 5px;
+        align-items: center;
+        border-radius: 999px;
+        padding: 5px 10px 4px;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
         text-transform: uppercase;
+        color: var(--tag-ink);
+        background: var(--tag-bg);
+      }
+
+      .brand.harris {
+        color: #1f4f96;
+        background: #eaf2ff;
       }
 
       .brand.lynwood {
-        color: #1d4f8d;
-        background: #dbe7f9;
+        color: #0f5987;
+        background: #e5f5ff;
       }
 
       .brand.hamilton {
-        color: #2f5697;
-        background: #dbe7f8;
+        color: #1d4768;
+        background: #e7f6ff;
       }
 
       .title {
-        margin: 12px 0 12px;
-        font-size: clamp(35px, 2vw, 49px);
-        line-height: 1.06;
+        margin: 10px 0 10px;
+        font-size: clamp(15px, 1.4vw, 37px);
+        line-height: 1.08;
         letter-spacing: 0.002em;
         font-weight: 800;
       }
 
       .price-wrap {
-        border-top: 1px solid #ddd7ce;
-        padding-top: 12px;
+        border-top: 1px solid #dde7f0;
+        padding-top: 11px;
       }
 
       .price-row {
@@ -239,19 +407,20 @@
       }
 
       .label {
-        color: #7b756e;
-        font-size: 15px;
-        letter-spacing: 0.1em;
+        color: #70839d;
+        font-family: "Space Mono", monospace;
+        font-size: clamp(10px, 0.7vw, 13px);
+        letter-spacing: 0.08em;
         font-weight: 700;
         text-transform: uppercase;
       }
 
       .deal-price {
-        color: var(--deal-orange);
-        font-size: clamp(50px, 2.6vw, 65px);
-        line-height: 0.95;
-        margin-top: 2px;
-        font-weight: 800;
+        color: var(--price);
+        font-size: clamp(32px, 2.3vw, 58px);
+        line-height: 0.9;
+        margin-top: 4px;
+        font-weight: 900;
       }
 
       .list-block {
@@ -259,43 +428,88 @@
       }
 
       .list-price {
-        color: #6f6a64;
-        font-size: clamp(36px, 1.75vw, 49px);
-        line-height: 0.95;
-        margin-top: 3px;
+        color: #5f6d82;
+        font-size: clamp(24px, 1.65vw, 41px);
+        line-height: 0.9;
+        margin-top: 4px;
         font-weight: 800;
       }
 
       .ref {
         margin-top: 8px;
-        font-size: clamp(16px, 1vw, 18px);
-        color: #726e67;
-        letter-spacing: 0.04em;
+        color: #6f7e92;
+        font-family: "Space Mono", monospace;
+        font-size: clamp(10px, 0.72vw, 13px);
+        letter-spacing: 0.03em;
       }
 
       .footer-note {
-        margin-top: 22px;
-        border: 1px solid #d7d2c8;
-        border-radius: 18px;
-        padding: 12px 14px 10px;
+        margin-top: 18px;
+        border-radius: 16px;
+        padding: 12px 16px 11px;
         text-align: center;
-        color: #6f6c66;
-        font-size: clamp(16px, 0.95vw, 18px);
-        line-height: 1.35;
-        background: rgba(255, 255, 255, 0.28);
+        color: #496485;
+        font-size: clamp(12px, 0.84vw, 16px);
+        line-height: 1.42;
+        border: 1px solid #d3e2f0;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 250, 255, 0.92)),
+          repeating-linear-gradient(90deg, rgba(18, 185, 166, 0.03) 0 9px, transparent 9px 18px);
+        animation: footerFade 0.75s ease 0.4s both;
       }
 
-      @media (max-width: 1100px) {
+      @keyframes heroRise {
+        from {
+          opacity: 0;
+          transform: translateY(12px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes cardRise {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes footerFade {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      body.is-exporting .hero,
+      body.is-exporting .card,
+      body.is-exporting .footer-note {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      body.is-exporting .toolbar button {
+        transition: none !important;
+      }
+
+      @media (max-width: 1120px) {
         .cards {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .hero h1 {
-          font-size: clamp(34px, 5.2vw, 54px);
-        }
-
-        .hero .kicker {
-          font-size: 18px;
+        .hero .subtitle {
+          max-width: 100%;
         }
       }
 
@@ -306,23 +520,32 @@
         }
 
         .poster {
-          padding: 14px;
           border-radius: 20px;
+          padding: 13px;
         }
 
         .hero {
           border-radius: 18px;
-          padding: 18px 16px;
+          padding: 18px 16px 16px;
           margin-bottom: 12px;
         }
 
         .hero h1 {
-          font-size: clamp(27px, 7.8vw, 40px);
+          font-size: clamp(28px, 7.5vw, 40px);
+          max-width: 100%;
         }
 
-        .hero .subtitle,
-        .promo {
+        .hero .subtitle {
           font-size: 15px;
+          margin: 10px 0 12px;
+        }
+
+        .promo {
+          gap: 7px;
+          padding: 8px 11px 7px;
+          border-radius: 14px;
+          font-size: 13px;
+          flex-wrap: wrap;
         }
 
         .cards {
@@ -331,21 +554,21 @@
         }
 
         .card {
-          min-height: 332px;
+          min-height: 340px;
           border-radius: 18px;
         }
 
         .card-layout {
-          min-height: 332px;
+          min-height: 340px;
         }
 
         .badge {
-          font-size: 13px;
           left: 12px;
+          font-size: 11px;
         }
 
         .image-side {
-          padding: 16px 8px 8px;
+          padding: 15px 8px 8px;
         }
 
         .product-image {
@@ -353,34 +576,42 @@
         }
 
         .product-image.roll {
-          max-width: 156px;
-          max-height: 61px;
+          max-width: 154px;
+          max-height: 62px;
         }
 
         .title {
-          font-size: 29px;
+          font-size: 30px;
         }
 
         .deal-price {
-          font-size: 40px;
+          font-size: 43px;
         }
 
         .list-price {
           font-size: 31px;
         }
 
-        .label {
-          font-size: 12px;
-        }
-
+        .label,
         .ref {
-          font-size: 14px;
+          font-size: 11px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
         }
       }
 
       @media print {
         body {
           background: #fff;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
 
         .toolbar {
@@ -388,13 +619,13 @@
         }
 
         .page-shell {
-          margin: 0;
           width: 100%;
+          margin: 0;
         }
 
         .poster {
-          box-shadow: none;
           border: 0;
+          box-shadow: none;
         }
       }
     </style>
@@ -745,13 +976,22 @@
       const pdfButton = document.getElementById("downloadPdf");
 
       async function renderPoster(scale = 2.5) {
-        return html2canvas(poster, {
-          scale,
-          useCORS: true,
-          backgroundColor: "#f3ece3",
-          windowWidth: poster.scrollWidth,
-          windowHeight: poster.scrollHeight
-        });
+        document.body.classList.add("is-exporting");
+        try {
+          if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+          }
+          await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+          return html2canvas(poster, {
+            scale,
+            useCORS: true,
+            backgroundColor: "#f7fbff",
+            windowWidth: poster.scrollWidth,
+            windowHeight: poster.scrollHeight
+          });
+        } finally {
+          document.body.classList.remove("is-exporting");
+        }
       }
 
       async function savePng() {
