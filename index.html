@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LG Harris Catalogue</title>
+    <style>
+      :root {
+        --page-bg: #efe7dd;
+        --card-bg: #f8f8f7;
+        --card-border: #d8d2ca;
+        --hero-ink: #132f4d;
+        --hero-ink-alt: #1a3f62;
+        --label-blue: #93c5ff;
+        --deal-orange: #c8452f;
+        --muted-text: #746f68;
+        --title-ink: #222222;
+        --pill-bg: #d6e4f8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 14% 8%, #f6efe6 0, var(--page-bg) 38%, #ece4d8 100%);
+        color: var(--title-ink);
+        font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      .page-shell {
+        width: min(1240px, calc(100vw - 28px));
+        margin: 18px auto 28px;
+      }
+
+      .toolbar {
+        position: sticky;
+        top: 14px;
+        z-index: 30;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .toolbar button {
+        border: 0;
+        border-radius: 12px;
+        background: #12324f;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 10px 16px;
+        cursor: pointer;
+        box-shadow: 0 8px 16px rgba(18, 50, 79, 0.2);
+      }
+
+      .toolbar button:nth-child(2) {
+        background: #d06138;
+      }
+
+      .toolbar button:disabled {
+        opacity: 0.6;
+        cursor: progress;
+      }
+
+      .poster {
+        background: #f3ece3;
+        border-radius: 28px;
+        padding: 30px 26px 24px;
+        border: 1px solid #ddd4ca;
+        box-shadow: 0 20px 50px rgba(53, 42, 28, 0.08);
+      }
+
+      .hero {
+        border-radius: 30px;
+        background: linear-gradient(135deg, var(--hero-ink) 0%, #1e4062 55%, #18395a 100%);
+        color: #f4f7fa;
+        padding: 28px 34px 26px;
+        margin-bottom: 22px;
+      }
+
+      .hero .kicker {
+        margin: 0 0 8px;
+        color: var(--label-blue);
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        font-size: 24px;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(36px, 4.25vw, 78px);
+        letter-spacing: 0.01em;
+        line-height: 0.97;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+
+      .hero .subtitle {
+        margin: 10px 0 14px;
+        font-size: clamp(23px, 1.7vw, 29px);
+        letter-spacing: 0.015em;
+        color: #dbe6f0;
+      }
+
+      .promo {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        border-radius: 100px;
+        background: linear-gradient(90deg, #d4573a, #de7d45);
+        color: #fff;
+        font-size: clamp(17px, 1.2vw, 22px);
+        padding: 8px 18px;
+        font-weight: 700;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        min-height: 430px;
+      }
+
+      .badge {
+        position: absolute;
+        left: 18px;
+        top: 8px;
+        padding: 6px 12px;
+        border-radius: 100px;
+        background: #cf543a;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .card-layout {
+        display: grid;
+        grid-template-columns: 41% 59%;
+        min-height: 430px;
+      }
+
+      .image-side {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 26px 14px 14px;
+        background: #f0ece5;
+      }
+
+      .shot {
+        position: relative;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        box-shadow: 0 8px 12px rgba(34, 26, 18, 0.14);
+        overflow: hidden;
+      }
+
+      .shot::before {
+        content: "";
+        position: absolute;
+        inset: 10%;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+      }
+
+      .shot::after {
+        content: attr(data-label);
+        position: absolute;
+        left: 9px;
+        right: 9px;
+        bottom: 8px;
+        color: #f5f5f5;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 10px;
+        text-align: center;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.28);
+      }
+
+      .shot-1 {
+        width: 74px;
+        height: 158px;
+        background: linear-gradient(180deg, #d7d7dd, #f5f5f7 80%, #323640 80%);
+      }
+
+      .shot-2 {
+        width: 134px;
+        height: 34px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #e8edf0, #f6f7f8 44%, #dadde2);
+      }
+
+      .shot-3 {
+        width: 86px;
+        height: 118px;
+        background: linear-gradient(180deg, #95c8f6 0%, #1284d0 54%, #165885 54%, #f2d16e 68%, #f8f9fa 68%);
+      }
+
+      .shot-4 {
+        width: 116px;
+        height: 96px;
+        background: linear-gradient(90deg, #9f9ea4 0%, #b6b6bd 58%, #e03636 58%, #8a2027 100%);
+      }
+
+      .shot-5 {
+        width: 94px;
+        height: 136px;
+        background: linear-gradient(180deg, #d4d3d8 0%, #ececef 58%, #d03f4f 58%, #b82f45 100%);
+      }
+
+      .shot-6 {
+        width: 88px;
+        height: 116px;
+        background: linear-gradient(180deg, #0263bf 0%, #1b90e7 38%, #113f73 38%, #f06e00 78%, #f6f7f8 78%);
+      }
+
+      .shot-7 {
+        width: 92px;
+        height: 121px;
+        background: linear-gradient(180deg, #6f614e 0%, #876f4f 70%, #e4d15f 70%);
+      }
+
+      .shot-8 {
+        width: 140px;
+        height: 31px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #f5f6f8 0%, #293657 28%, #f5f6f8 46%, #fca240 66%, #2a4a8d 100%);
+      }
+
+      .shot-9 {
+        width: 92px;
+        height: 96px;
+        transform: rotate(-19deg);
+        background: linear-gradient(180deg, #00a4df 0%, #1b79b4 48%, #22528a 100%);
+      }
+
+      .shot-10 {
+        width: 112px;
+        height: 140px;
+        background: linear-gradient(180deg, #d4c2a4 0%, #f3dfbf 74%, #eb4f2e 74%);
+      }
+
+      .shot-11 {
+        width: 104px;
+        height: 128px;
+        background: linear-gradient(180deg, #f8f8f8 0%, #ececef 58%, #d53f41 58%, #be3038 100%);
+      }
+
+      .shot-12 {
+        width: 96px;
+        height: 125px;
+        background: linear-gradient(180deg, #efe9db 0%, #f4efe2 65%, #2f8cc2 65%, #18628c 100%);
+      }
+
+      .info-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 16px 14px 10px 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        border-radius: 16px;
+        background: var(--pill-bg);
+        color: #215392;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        padding: 6px 10px 5px;
+        text-transform: uppercase;
+      }
+
+      .brand.lynwood {
+        color: #1d4f8d;
+        background: #dbe7f9;
+      }
+
+      .brand.hamilton {
+        color: #2f5697;
+        background: #dbe7f8;
+      }
+
+      .title {
+        margin: 12px 0 12px;
+        font-size: clamp(35px, 2vw, 49px);
+        line-height: 1.06;
+        letter-spacing: 0.002em;
+        font-weight: 800;
+      }
+
+      .price-wrap {
+        border-top: 1px solid #ddd7ce;
+        padding-top: 12px;
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 10px;
+      }
+
+      .label {
+        color: #7b756e;
+        font-size: 15px;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .deal-price {
+        color: var(--deal-orange);
+        font-size: clamp(50px, 2.6vw, 65px);
+        line-height: 0.95;
+        margin-top: 2px;
+        font-weight: 800;
+      }
+
+      .list-block {
+        text-align: right;
+      }
+
+      .list-price {
+        color: #6f6a64;
+        font-size: clamp(36px, 1.75vw, 49px);
+        line-height: 0.95;
+        margin-top: 3px;
+        font-weight: 800;
+      }
+
+      .ref {
+        margin-top: 8px;
+        font-size: clamp(16px, 1vw, 18px);
+        color: #726e67;
+        letter-spacing: 0.04em;
+      }
+
+      .footer-note {
+        margin-top: 22px;
+        border: 1px solid #d7d2c8;
+        border-radius: 18px;
+        padding: 12px 14px 10px;
+        text-align: center;
+        color: #6f6c66;
+        font-size: clamp(16px, 0.95vw, 18px);
+        line-height: 1.35;
+        background: rgba(255, 255, 255, 0.28);
+      }
+
+      @media (max-width: 1100px) {
+        .cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .hero h1 {
+          font-size: clamp(34px, 5.2vw, 54px);
+        }
+
+        .hero .kicker {
+          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .page-shell {
+          width: calc(100vw - 16px);
+          margin: 10px auto 18px;
+        }
+
+        .poster {
+          padding: 14px;
+          border-radius: 20px;
+        }
+
+        .hero {
+          border-radius: 18px;
+          padding: 18px 16px;
+          margin-bottom: 12px;
+        }
+
+        .hero h1 {
+          font-size: clamp(27px, 7.8vw, 40px);
+        }
+
+        .hero .subtitle,
+        .promo {
+          font-size: 15px;
+        }
+
+        .cards {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .card {
+          min-height: 332px;
+          border-radius: 18px;
+        }
+
+        .card-layout {
+          min-height: 332px;
+        }
+
+        .badge {
+          font-size: 13px;
+          left: 12px;
+        }
+
+        .image-side {
+          padding: 16px 8px 8px;
+        }
+
+        .title {
+          font-size: 29px;
+        }
+
+        .deal-price {
+          font-size: 40px;
+        }
+
+        .list-price {
+          font-size: 31px;
+        }
+
+        .label {
+          font-size: 12px;
+        }
+
+        .ref {
+          font-size: 14px;
+        }
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+
+        .toolbar {
+          display: none;
+        }
+
+        .page-shell {
+          margin: 0;
+          width: 100%;
+        }
+
+        .poster {
+          box-shadow: none;
+          border: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="toolbar no-print">
+        <button id="downloadPng">Download PNG</button>
+        <button id="downloadPdf">Download PDF</button>
+      </div>
+
+      <main class="poster" id="cataloguePoster">
+        <section class="hero">
+          <p class="kicker">CATALOGUE</p>
+          <h1>PREMIUM DUST SHEETS AND TARPAULINS</h1>
+          <p class="subtitle">Prepared by LG Harris for customer reference and sales conversations</p>
+          <p class="promo">
+            <span>Current trade prices across trusted brands</span>
+            <span>&#8226;</span>
+            <span>Minimum order: 2 cases to be eligible for the quoted price.</span>
+          </p>
+        </section>
+
+        <section class="cards">
+          <article class="card">
+            <span class="badge">Save 67%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-1" data-label="Essentials"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand harris">HARRIS</span>
+                  <p class="title">Essentials Dust Sheet 3.7 x 2.75M</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;0.30</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;0.91</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 101064201</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 65%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-2" data-label="Dust Roll"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand harris">HARRIS</span>
+                  <p class="title">Essentials Dust Sheet on a Roll</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;2.75</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;7.85</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 101064202</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-3" data-label="Polythene"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand lynwood">LYNWOOD</span>
+                  <p class="title">12 x 9 Polythene Dust Sheet</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;0.25</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;0.79</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: SH102</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 74%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-4" data-label="Cotton Rich"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand harris">HARRIS</span>
+                  <p class="title">Seriously Good Cotton Rich Dust Sheet</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;3.85</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;14.91</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 102064200</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 66%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-5" data-label="Staircase"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand harris">HARRIS</span>
+                  <p class="title">Seriously Good Cotton Rich Staircase Dust Sheet</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;3.42</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;10.09</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 102064201</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-6" data-label="Non Woven"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand lynwood">LYNWOOD</span>
+                  <p class="title">3.2 x 3.2 Non Woven Dust Sheet</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;1.41</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;3.90</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: SH400</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 63%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-7" data-label="Prestige"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand hamilton">HAMILTON</span>
+                  <p class="title">Prestige Poly Cotton Dust Sheet 12x9 100% Cotton</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;4.55</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;12.45</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 24968-001</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 62%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-8" data-label="Trade Roll"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand hamilton">HAMILTON</span>
+                  <p class="title">For The Trade / Dust Sheet on a Roll</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;2.39</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;6.28</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 3854201-50</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 66%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-9" data-label="Tarp"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand harris">HARRIS</span>
+                  <p class="title">Seriously Good Tarp 12x9 (60gsm)</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;1.92</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;5.61</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 102064203</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 69%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-10" data-label="Twill 5Pk"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand hamilton">HAMILTON</span>
+                  <p class="title">5 PK Cotton Twill Dust Sheet 12x9 1.2KG</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;16.00</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;52.28</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 44967-003</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 68%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-11" data-label="3Pk Baled"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand harris">HARRIS</span>
+                  <p class="title">Dust Sheet 3pk Baled 12x9 Poly Back</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;11.00</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;34.53</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 400340</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Save 69%</span>
+            <div class="card-layout">
+              <div class="image-side">
+                <div class="shot shot-12" data-label="Twill"></div>
+              </div>
+              <div class="info-side">
+                <div>
+                  <span class="brand hamilton">HAMILTON</span>
+                  <p class="title">Cotton Twill Dust Sheet 12' x 9'</p>
+                </div>
+                <div class="price-wrap">
+                  <div class="label">Deal Price</div>
+                  <div class="price-row">
+                    <div class="deal-price">&pound;3.30</div>
+                    <div class="list-block">
+                      <div class="label">List Price</div>
+                      <div class="list-price">&pound;10.64</div>
+                    </div>
+                  </div>
+                  <div class="ref">Ref: 44968-003</div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="footer-note">
+          * Prices are for customer reference and remain subject to stock and approval.<br />
+          Excludes: Stax, Decco, Fortis, H&amp;B, IBC, IBMG, NBG, Trago Mills, Home Hardware.
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script>
+      const poster = document.getElementById("cataloguePoster");
+      const pngButton = document.getElementById("downloadPng");
+      const pdfButton = document.getElementById("downloadPdf");
+
+      async function renderPoster(scale = 2.5) {
+        return html2canvas(poster, {
+          scale,
+          useCORS: true,
+          backgroundColor: "#f3ece3",
+          windowWidth: poster.scrollWidth,
+          windowHeight: poster.scrollHeight
+        });
+      }
+
+      async function savePng() {
+        pngButton.disabled = true;
+        const previous = pngButton.textContent;
+        pngButton.textContent = "Rendering...";
+        try {
+          const canvas = await renderPoster();
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL("image/png");
+          link.download = "lg-harris-catalogue.png";
+          link.click();
+        } finally {
+          pngButton.disabled = false;
+          pngButton.textContent = previous;
+        }
+      }
+
+      async function savePdf() {
+        pdfButton.disabled = true;
+        const previous = pdfButton.textContent;
+        pdfButton.textContent = "Rendering...";
+        try {
+          const canvas = await renderPoster();
+          const img = canvas.toDataURL("image/png");
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const margin = 22;
+          const maxWidth = pageWidth - margin * 2;
+          const maxHeight = pageHeight - margin * 2;
+          const scale = Math.min(maxWidth / canvas.width, maxHeight / canvas.height);
+          const width = canvas.width * scale;
+          const height = canvas.height * scale;
+          const x = (pageWidth - width) / 2;
+          const y = (pageHeight - height) / 2;
+          doc.addImage(img, "PNG", x, y, width, height);
+          doc.save("lg-harris-catalogue.pdf");
+        } finally {
+          pdfButton.disabled = false;
+          pdfButton.textContent = previous;
+        }
+      }
+
+      pngButton.addEventListener("click", savePng);
+      pdfButton.addEventListener("click", savePdf);
+    </script>
+  </body>
+</html>
