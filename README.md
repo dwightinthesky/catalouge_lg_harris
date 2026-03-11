@@ -10,9 +10,9 @@ Open `index.html` directly in your browser.
 
 1. Push this repo to `main`.
 2. In GitHub, go to **Settings > Pages**.
-3. Set **Build and deployment** to **GitHub Actions**.
-4. Wait for the `Deploy GitHub Pages` workflow to finish.
-5. Your page URL will be shown in the workflow summary.
+3. Under **Build and deployment**, choose **Deploy from a branch**.
+4. Select branch `main` and folder `/ (root)`.
+5. Save and wait 1-2 minutes.
 
 ## Download output
 
