@@ -519,6 +519,27 @@
         transform: none !important;
       }
 
+      body.is-exporting .hero::before,
+      body.is-exporting .hero::after {
+        display: none !important;
+        content: none !important;
+      }
+
+      body.is-exporting .promo {
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 3 !important;
+        background: #ff6b38 !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+      }
+
+      body.is-exporting .promo span {
+        color: #ffffff !important;
+      }
+
       body.is-exporting .toolbar button {
         transition: none !important;
       }
